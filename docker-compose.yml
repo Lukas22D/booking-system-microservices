@@ -1,0 +1,19 @@
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: sistema-reserva-hoteis
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: db-hoteis
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init_db:/docker-entrypoint-initdb.d # Inicializa scripts SQL automáticos
+
+volumes:
+  db_data:
+
