@@ -14,12 +14,16 @@ import com.sistemareserva.service_reservas.model.Reservas;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reservas, Long> {
 
-    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN TRUE ELSE FALSE END FROM tb_reservas r WHERE r.idQuarto = :idQuarto AND r.dataEntrada = :dataEntrada AND r.dataSaida = :dataSaida AND r.Pagamento = TRUE")
+    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN TRUE ELSE FALSE END FROM tb_reservas r WHERE r.idQuarto = :idQuarto AND r.dataEntrada = :dataEntrada AND r.dataSaida = :dataSaida AND r.status =  com.sistemareserva.service_reservas.model.StatusReserva.CONFIRMADA")
     Optional<Boolean> existsReserva(@Param("idQuarto") Long idQuarto, @Param("dataEntrada") Date dataEntrada, @Param("dataSaida") Date dataSaida);
 
     
-    @Query("SELECT r.idQuarto FROM tb_reservas r WHERE r.dataEntrada <= :dataSaida AND r.dataSaida >= :dataEntrada AND r.Pagamento = TRUE")
+    @Query("SELECT r.idQuarto FROM tb_reservas r WHERE r.dataEntrada <= :dataSaida AND r.dataSaida >= :dataEntrada AND r.status =  com.sistemareserva.service_reservas.model.StatusReserva.CONFIRMADA")
     List<Long> findQuartosReservados(@Param("dataEntrada") Date dataEntrada, @Param("dataSaida") Date dataSaida);
+
+
+    Optional<Reservas> findByIdQuarto(Long idQuarto);
+
 
 
 

@@ -3,6 +3,8 @@ package com.sistemareserva.service_reservas.model;
 import java.sql.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
@@ -28,13 +30,14 @@ public class Reservas {
 
     private Date dataSaida;
 
-    private Boolean Pagamento;
+    @Enumerated(EnumType.STRING)
+    private StatusReserva status;
     
     public Reservas(Long idQuarto, Long idHospede, Date dataEntrada, Date dataSaida) {
         this.idQuarto = idQuarto;
         this.idHospede = idHospede;
         this.dataEntrada = dataEntrada;
         this.dataSaida = dataSaida;
-        this.Pagamento = true;
+        this.status = StatusReserva.PENDENTE;
     }
 }

@@ -1,10 +1,10 @@
-package com.sistemareserva.service_hoteis;
+package com.sistemareserva.service_payment;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ServiceHoteisApplicationTests {
+class ServicePaymentApplicationTests {
 
 	@Test
 	void contextLoads() {

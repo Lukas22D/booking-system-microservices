@@ -3,8 +3,10 @@ package com.sistemareserva.service_reservas.controller;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sistemareserva.service_reservas.controller.dto.CreateReservaRequest;
+import com.sistemareserva.service_reservas.controller.dto.ReservaResponse;
 import com.sistemareserva.service_reservas.model.Reservas;
 import com.sistemareserva.service_reservas.service.ReservaService;
 
@@ -26,11 +29,11 @@ public class ReservasController {
     private final ReservaService service;
 
     @PostMapping
-    public ResponseEntity<Reservas> createdReserva(CreateReservaRequest request) {
+    public ResponseEntity<ReservaResponse> createdReserva(CreateReservaRequest request) {
         Reservas reserva = request.toModel();
         service.saveReserva(reserva.getIdQuarto(), reserva.getIdHospede(), reserva.getDataEntrada(),
                 reserva.getDataSaida());
-        return ResponseEntity.ok(reserva);
+        return ResponseEntity.ok(new ReservaResponse(reserva));
     }
 
     @GetMapping("/quartos/reservados/{dataEntrada}/{dataSaida}")
@@ -43,5 +46,29 @@ public class ReservasController {
 
         return ResponseEntity.ok(service.findQuartosReservados(sqlDataEntrada, sqlDataSaida));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ReservaResponse> findReservaById(@PathVariable Long id) {
+        var reserva = Optional.ofNullable(service.findReservaById(id))
+                              .map(ReservaResponse::new)
+                              .orElse(null);
+
+        return ResponseEntity.ok(reserva);
+    }
+
+
+    @GetMapping("/quarto/{idQuarto}")
+    public ResponseEntity<ReservaResponse> findByQuartoId(@PathVariable Long idQuarto) {
+    Reservas reserva = service.findByQuartoId(idQuarto);
+    
+    if (reserva == null) {
+        // Retorna 404 se nenhuma reserva for encontrada
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+    
+    // Se a reserva for encontrada, cria a resposta normalmente
+    ReservaResponse reservaResponse = new ReservaResponse(reserva);
+    return ResponseEntity.ok(reservaResponse);
+}
 
 }

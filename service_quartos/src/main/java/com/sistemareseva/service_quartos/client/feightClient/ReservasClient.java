@@ -1,5 +1,7 @@
 package com.sistemareseva.service_quartos.client.feightClient;
 
+import com.sistemareseva.service_quartos.client.feightClient.dto.ReservaResponse;
+
 import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,4 +16,7 @@ public interface ReservasClient {
      public ResponseEntity<List<Long>>  findQuartosReservados(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String dataEntrada,
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String dataSaida);
+
+    @GetMapping("/quarto/{idQuarto}")
+    public ResponseEntity<ReservaResponse> findByQuartoId(@PathVariable Long idQuarto);
 }

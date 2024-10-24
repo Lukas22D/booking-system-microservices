@@ -28,5 +28,13 @@ public class ReservaService {
         return repository.findQuartosReservados(dataEntrada, dataSaida);
     }
 
+    public Reservas findReservaById(Long id) {
+        return repository.findById(id).orElseThrow();
+    }
+
+    public Reservas findByQuartoId(Long idQuarto) {
+        return repository.findByIdQuarto(idQuarto).orElse(null);
+    }
+
 
 }

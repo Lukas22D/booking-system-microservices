@@ -1,13 +1,13 @@
-package com.sistemareserva.service_hoteis;
+package com.sistemareserva.service_payment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ServiceHoteisApplication {
+public class ServicePaymentApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ServiceHoteisApplication.class, args);
+		SpringApplication.run(ServicePaymentApplication.class, args);
 	}
 
 }
