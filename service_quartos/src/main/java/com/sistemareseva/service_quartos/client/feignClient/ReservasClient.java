@@ -1,6 +1,4 @@
-package com.sistemareseva.service_quartos.client.feightClient;
-
-import com.sistemareseva.service_quartos.client.feightClient.dto.ReservaResponse;
+package com.sistemareseva.service_quartos.client.feignClient;
 
 import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -8,6 +6,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import com.sistemareseva.service_quartos.client.feignClient.dto.ReservaResponse;
 
 @FeignClient(name = "service-reservas", url = "localhost:8082/reservas")
 public interface ReservasClient {

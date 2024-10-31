@@ -1,6 +1,7 @@
 package com.sistemareserva.service_reservas.model;
 
 import java.sql.Date;
+import java.time.temporal.ChronoUnit;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.GenerationType;
+import java.math.BigDecimal;
 
 @NoArgsConstructor
 @Getter
@@ -30,14 +32,25 @@ public class Reservas {
 
     private Date dataSaida;
 
+    private Integer quantidadeDias;
+
+    private BigDecimal UnidadeDiaria;
+
+    private BigDecimal valorTotal;
+
     @Enumerated(EnumType.STRING)
     private StatusReserva status;
-    
-    public Reservas(Long idQuarto, Long idHospede, Date dataEntrada, Date dataSaida) {
+
+    public Reservas(Long idQuarto, Long idHospede, Date dataEntrada, Date dataSaida, BigDecimal UnidadeDiaria) {
         this.idQuarto = idQuarto;
         this.idHospede = idHospede;
         this.dataEntrada = dataEntrada;
         this.dataSaida = dataSaida;
         this.status = StatusReserva.PENDENTE;
+        this.quantidadeDias = (int) ChronoUnit.DAYS.between(
+                dataEntrada.toLocalDate(),
+                dataSaida.toLocalDate());
+        this.UnidadeDiaria = UnidadeDiaria;
+        this.valorTotal = UnidadeDiaria.multiply(BigDecimal.valueOf(this.quantidadeDias));
     }
 }

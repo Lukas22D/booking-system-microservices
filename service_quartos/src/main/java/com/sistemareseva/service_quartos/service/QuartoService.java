@@ -12,8 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.sistemareseva.service_quartos.client.feightClient.ReservasClient;
-import com.sistemareseva.service_quartos.client.feightClient.dto.ReservaResponse;
+import com.sistemareseva.service_quartos.client.feignClient.ReservasClient;
+import com.sistemareseva.service_quartos.client.feignClient.dto.ReservaResponse;
 import com.sistemareseva.service_quartos.client.repository.QuartoRepository;
 import com.sistemareseva.service_quartos.model.Quartos;
 

@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -29,11 +31,10 @@ public class ReservasController {
     private final ReservaService service;
 
     @PostMapping
-    public ResponseEntity<ReservaResponse> createdReserva(CreateReservaRequest request) {
-        Reservas reserva = request.toModel();
-        service.saveReserva(reserva.getIdQuarto(), reserva.getIdHospede(), reserva.getDataEntrada(),
-                reserva.getDataSaida());
-        return ResponseEntity.ok(new ReservaResponse(reserva));
+    public CompletableFuture<ResponseEntity<ReservaResponse>> createdReserva(CreateReservaRequest request) {
+        CompletableFuture<ReservaResponse> reserva = service.saveReserva(request.idQuarto(), request.idHospede(), request.parsedataEntrada(), request.parsedataSaida() ).thenApply(ReservaResponse::new);
+        return reserva
+                .thenApply(reservaSaved -> ResponseEntity.status(HttpStatus.CREATED).body(reservaSaved));
     }
 
     @GetMapping("/quartos/reservados/{dataEntrada}/{dataSaida}")
@@ -54,6 +55,12 @@ public class ReservasController {
                               .orElse(null);
 
         return ResponseEntity.ok(reserva);
+    }
+
+    @GetMapping("/hospede/{idHospede}")
+    public CompletableFuture<ResponseEntity<List<ReservaResponse>>> findByIdHospede(@PathVariable Long idHospede) {
+       return  service.findByIdHospede(idHospede)
+               .thenApply(reservas -> ResponseEntity.ok(reservas.stream().map(ReservaResponse::new).collect(Collectors.toList())));
     }
 
 

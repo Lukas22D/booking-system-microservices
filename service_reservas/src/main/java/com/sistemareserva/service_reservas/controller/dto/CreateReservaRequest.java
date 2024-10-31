@@ -1,9 +1,7 @@
 package com.sistemareserva.service_reservas.controller.dto;
 
-import java.time.LocalDate;
 import java.sql.Date;
-
-import com.sistemareserva.service_reservas.model.Reservas;
+import java.time.LocalDate;
 
 public record CreateReservaRequest(
     Long idQuarto,
@@ -12,11 +10,13 @@ public record CreateReservaRequest(
     String dataSaida    // Recebe como String no formato YYYY-MM-DD
 ) {
 
-    public Reservas toModel() {
-        // Converte a string para LocalDate, depois para java.sql.Date
-        Date sqlDataEntrada = Date.valueOf(LocalDate.parse(dataEntrada));
-        Date sqlDataSaida = Date.valueOf(LocalDate.parse(dataSaida));
-        
-        return new Reservas(idQuarto, idHospede, sqlDataEntrada, sqlDataSaida);
+
+    public Date parsedataEntrada(){
+     return Date.valueOf(LocalDate.parse(dataEntrada));
     }
+
+    public Date parsedataSaida(){
+     return Date.valueOf(LocalDate.parse(dataSaida));
+    }
+
 }

@@ -21,11 +21,15 @@ public interface ReservaRepository extends JpaRepository<Reservas, Long> {
     @Query("SELECT r.idQuarto FROM tb_reservas r WHERE r.dataEntrada <= :dataSaida AND r.dataSaida >= :dataEntrada AND r.status =  com.sistemareserva.service_reservas.model.StatusReserva.CONFIRMADA")
     List<Long> findQuartosReservados(@Param("dataEntrada") Date dataEntrada, @Param("dataSaida") Date dataSaida);
 
+    List<Reservas> findByIdHospede(Long idHospede);
+
 
     Optional<Reservas> findByIdQuarto(Long idQuarto);
 
-
-
+     @Query("SELECT r FROM tb_reservas r WHERE r.idQuarto = :idQuarto AND r.status =  com.sistemareserva.service_reservas.model.StatusReserva.CONFIRMADA")
+    Optional<Reservas> findByIdQuartoAndStatusConfirmado(
+        @Param("idQuarto") Long idQuarto
+    );
 
     
 }

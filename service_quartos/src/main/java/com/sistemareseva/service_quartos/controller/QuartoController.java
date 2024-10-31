@@ -26,6 +26,12 @@ public class QuartoController {
         return ResponseEntity.ok(new QuartosReponse(quartoCreated));
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<QuartosReponse> getQuartoById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(new QuartosReponse(quartoService.getQuartoById(id)));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<QuartosReponse> updateQuarto(@PathVariable("id") Long id, @RequestBody CreateQuartoRequest request) {
         return ResponseEntity.ok(new QuartosReponse(

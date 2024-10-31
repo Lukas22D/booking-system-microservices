@@ -8,6 +8,9 @@ public record ReservaResponse(
     Long idHospede,
     String dataEntrada,
     String dataSaida,
+    String valorTotal,
+    String quantidadeDias,
+    String UnidadeDiaria,
     String status
 ) {
     
@@ -19,6 +22,9 @@ public record ReservaResponse(
             reserva.getIdHospede(),
             reserva.getDataEntrada().toString(),
             reserva.getDataSaida().toString(),
+            reserva.getValorTotal().toString(),
+            reserva.getQuantidadeDias().toString(),
+            reserva.getUnidadeDiaria().toString(),
             reserva.getStatus().toString()
         );
     }
