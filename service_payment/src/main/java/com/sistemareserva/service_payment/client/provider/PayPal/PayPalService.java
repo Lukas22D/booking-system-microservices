@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderRequest;
+import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class PayPalService {
     private final ObjectMapper objectMapper;
 
     @Async
-    public CompletableFuture<String> createOrder(OrderRequest orderRequest) throws Exception {
+    public CompletableFuture<OrderResponse> createOrder(OrderRequest orderRequest) {
 
         CompletableFuture<HttpHeaders> headers = CompletableFuture.completedFuture(new HttpHeaders())
                 .thenApply( h -> {
@@ -70,31 +71,35 @@ public class PayPalService {
             });
             logger.info("Pedido criado com sucesso: " + response);
 
-            // Processando a resposta para extrair o link desejado
-            CompletableFuture<JsonNode> jsonNode = response.thenApply(r -> {
-                try{
-                    return objectMapper.readTree(r.getBody());
+    
+
+
+            return response.thenApply(r -> {
+                try {
+                    JsonNode jsonResponse = objectMapper.readTree(r.getBody());
+                    String orderId = jsonResponse.get("id").asText();
+                    String approveLink = null;
+
+                    // Iterando sobre os links para encontrar o link de aprovação
+                    for (JsonNode link : jsonResponse.get("links")) {
+                        if ("approve".equals(link.get("rel").asText())) {
+                            approveLink = link.get("href").asText();
+                            break;
+                        }
+                    }
+
+                    logger.info("ID do pedido: " + orderId);
+                    logger.info("Link de aprovação: " + approveLink);
+                    return new OrderResponse(orderId, approveLink);
                 } catch (JsonProcessingException e) {
                     logger.error("Erro ao processar resposta: " + e.getMessage());
                     throw new RuntimeException(e);
                 }
             });
-            CompletableFuture<JsonNode> linksNode = jsonNode.thenApply(j -> {
-                return j.get("links");
-            });
-            return linksNode.thenApply( l ->{
-                for (JsonNode link : l) {
-                    if ("approve".equals(link.get("rel").asText())) {
-                        logger.info("Link de aprovação: " + link.get("href").asText());
-                        return link.get("href").asText(); // Retorna o link "approve"
-                    }
-                }
-                return null;
-            });
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("Erro ao criar pedido: " + e.getMessage());
-        }  
-        return null;
+            return CompletableFuture.failedFuture(e);
+        }
     }
 }

@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import com.sistemareserva.service_payment.model.enums.TransactionStatus;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,15 +28,16 @@ public class Transaction {
 
     private Integer numDays;
 
-    private Long idPagamento;
+    private String idPagamento;
 
     private Long idHospede;
 
     private BigDecimal valor;
 
+    @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
-    public Transaction (Long idReserva, Integer numDays, Long idPagamento, Long idHospede, BigDecimal valor) {
+    public Transaction (Long idReserva, Integer numDays, String idPagamento, Long idHospede, BigDecimal valor) {
         this.idReserva = idReserva;
         this.numDays = numDays;
         this.idPagamento = idPagamento;

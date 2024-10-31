@@ -28,8 +28,6 @@ public class PaymentController {
 
     @GetMapping("/create-order")
     public CompletableFuture<ResponseEntity<String>> createOrder() throws Exception {
-
-
         return transactionService.createOrder(1L).thenApply(ResponseEntity::ok);
     }
 
