@@ -1,4 +1,4 @@
-package com.sistemareserva.service_payment.client.provider.repository;
+package com.sistemareserva.service_payment.client.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

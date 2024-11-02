@@ -1,9 +1,10 @@
 package com.sistemareserva.service_payment.client.provider.PayPal.dto;
 
 import java.util.*;
-import java.math.BigDecimal;
 
-import com.sistemareserva.service_payment.client.provider.FaightClient.dto.ReservaResponse;
+import com.sistemareserva.service_payment.client.FaightClient.dto.ReservaResponse;
+
+import java.math.BigDecimal;
 
 import lombok.Getter;
 import lombok.Setter;

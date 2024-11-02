@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sistemareserva.service_payment.client.provider.FaightClient.ReservasClient;
-import com.sistemareserva.service_payment.client.provider.FaightClient.dto.ReservaResponse;
+import com.sistemareserva.service_payment.client.FaightClient.ReservasClient;
+import com.sistemareserva.service_payment.client.FaightClient.dto.ReservaResponse;
+import com.sistemareserva.service_payment.client.broker.ProducerRabbitMq;
 import com.sistemareserva.service_payment.client.provider.PayPal.PayPalService;
 import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderRequest;
 import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderResponse;
-import com.sistemareserva.service_payment.client.provider.broker.ProducerRabbitMq;
-import com.sistemareserva.service_payment.client.provider.repository.TransactionRepository;
+import com.sistemareserva.service_payment.client.repository.TransactionRepository;
 import com.sistemareserva.service_payment.model.Transaction;
 import com.sistemareserva.service_payment.model.enums.TransactionStatus;
 

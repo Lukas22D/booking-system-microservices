@@ -1,4 +1,4 @@
-package com.sistemareserva.service_payment.client.provider.FaightClient.dto;
+package com.sistemareserva.service_payment.client.FaightClient.dto;
 
 public record ReservaResponse(
     Long id,
