@@ -70,11 +70,15 @@ public class ReservaService {
         return  CompletableFuture.completedFuture(repository.findByIdHospede(idHospede));
     }
 
+    @Async
     public void UpdateStatusReserva(List<Long> idReserva, String status) {
         repository.findByIdIn(idReserva).forEach(reserva -> {
             switch (status) {
                 case "APPROVED":
                     reserva.confirmar();
+                    break;
+                case "PENDING":
+                    reserva.pendente();
                     break;
                 case "CANCELADA":
                     reserva.cancelar();

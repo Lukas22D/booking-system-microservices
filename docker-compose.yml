@@ -1,3 +1,4 @@
+version: '3.8'
 
 services:
   db:
@@ -13,7 +14,18 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./init_db:/docker-entrypoint-initdb.d # Inicializa scripts SQL automáticos
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: sistema-reserva-hoteis-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
 volumes:
   db_data:
-
+  rabbitmq_data:

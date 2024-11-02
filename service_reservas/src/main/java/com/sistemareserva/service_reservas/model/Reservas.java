@@ -46,7 +46,7 @@ public class Reservas {
         this.idHospede = idHospede;
         this.dataEntrada = dataEntrada;
         this.dataSaida = dataSaida;
-        this.status = StatusReserva.PENDENTE;
+        this.status = null;
         this.quantidadeDias = (int) ChronoUnit.DAYS.between(
                 dataEntrada.toLocalDate(),
                 dataSaida.toLocalDate());
@@ -60,5 +60,13 @@ public class Reservas {
 
     public void cancelar() {
         this.status = StatusReserva.CANCELADA;
+    }
+
+    public void pendente() {
+        this.status = StatusReserva.PENDENTE;
+    }
+
+    public void finalizar() {
+        this.status = StatusReserva.FINALIZADA;
     }
 }

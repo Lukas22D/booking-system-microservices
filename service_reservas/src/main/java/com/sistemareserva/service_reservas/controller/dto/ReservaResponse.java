@@ -10,8 +10,7 @@ public record ReservaResponse(
     String dataSaida,
     String valorTotal,
     String quantidadeDias,
-    String UnidadeDiaria,
-    String status
+    String UnidadeDiaria
 ) {
     
 
@@ -24,8 +23,7 @@ public record ReservaResponse(
             reserva.getDataSaida().toString(),
             reserva.getValorTotal().toString(),
             reserva.getQuantidadeDias().toString(),
-            reserva.getUnidadeDiaria().toString(),
-            reserva.getStatus().toString()
+            reserva.getUnidadeDiaria().toString()
         );
     }
     

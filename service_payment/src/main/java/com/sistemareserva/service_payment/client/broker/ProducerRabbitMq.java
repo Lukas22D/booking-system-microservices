@@ -1,9 +1,9 @@
-package com.sistemareserva.service_payment.client.provider.broker;
+package com.sistemareserva.service_payment.client.broker;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
-import com.sistemareserva.service_payment.client.provider.broker.dto.OrderInfo;
+import com.sistemareserva.service_payment.client.broker.dto.OrderInfo;
 import com.sistemareserva.service_payment.model.Transaction;
 
 import java.util.List;  
