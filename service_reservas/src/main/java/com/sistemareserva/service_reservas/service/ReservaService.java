@@ -70,5 +70,22 @@ public class ReservaService {
         return  CompletableFuture.completedFuture(repository.findByIdHospede(idHospede));
     }
 
+    public void UpdateStatusReserva(List<Long> idReserva, String status) {
+        repository.findByIdIn(idReserva).forEach(reserva -> {
+            switch (status) {
+                case "APPROVED":
+                    reserva.confirmar();
+                    break;
+                case "CANCELADA":
+                    reserva.cancelar();
+                    break;
+                default:
+                    throw new RuntimeException("Status inválido");
+            }
+            repository.save(reserva);
+        });
+    }
+
+    
 
 }

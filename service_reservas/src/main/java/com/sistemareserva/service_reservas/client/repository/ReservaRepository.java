@@ -31,5 +31,9 @@ public interface ReservaRepository extends JpaRepository<Reservas, Long> {
         @Param("idQuarto") Long idQuarto
     );
 
+
+    List<Reservas> findByIdIn(List<Long> idReserva);
+
+
     
 }

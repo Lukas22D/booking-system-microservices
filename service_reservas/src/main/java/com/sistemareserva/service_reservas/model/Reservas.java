@@ -53,4 +53,12 @@ public class Reservas {
         this.UnidadeDiaria = UnidadeDiaria;
         this.valorTotal = UnidadeDiaria.multiply(BigDecimal.valueOf(this.quantidadeDias));
     }
+
+    public void confirmar() {
+        this.status = StatusReserva.CONFIRMADA;
+    }
+
+    public void cancelar() {
+        this.status = StatusReserva.CANCELADA;
+    }
 }
