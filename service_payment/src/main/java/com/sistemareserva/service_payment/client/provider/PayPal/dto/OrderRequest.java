@@ -19,10 +19,6 @@ public class OrderRequest {
     private List<Map<String, ?>> purchase_units;
 
     public OrderRequest(List<ReservaResponse> reservas) {
-        // this.purchase_units = List.of(new HashMap<>() {{
-        //     put("amount", new Amount(total));
-        //     put("items", List.of(new Item(nameReserva, quantityDays, valorReserva)));
-        // }});
         BigDecimal total = reservas.stream()
             .map(reserva -> new BigDecimal(reserva.valorTotal()))
             .reduce(BigDecimal.ZERO, BigDecimal::add);

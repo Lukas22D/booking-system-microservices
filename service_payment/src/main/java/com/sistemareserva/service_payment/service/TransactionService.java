@@ -12,6 +12,7 @@ import com.sistemareserva.service_payment.client.provider.FaightClient.dto.Reser
 import com.sistemareserva.service_payment.client.provider.PayPal.PayPalService;
 import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderRequest;
 import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderResponse;
+import com.sistemareserva.service_payment.client.provider.broker.ProducerRabbitMq;
 import com.sistemareserva.service_payment.client.provider.repository.TransactionRepository;
 import com.sistemareserva.service_payment.model.Transaction;
 import com.sistemareserva.service_payment.model.enums.TransactionStatus;
@@ -32,6 +33,7 @@ public class TransactionService {
     private final ReservasClient reservasClient;
     private final ObjectMapper mapper;
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
+    public final ProducerRabbitMq brokerOrder;
 
     @Async
     public CompletableFuture<String> createOrder(Long idHospede) {
@@ -79,7 +81,7 @@ public class TransactionService {
                             Long.valueOf(reserva.idHospede()),
                             new BigDecimal(reserva.valorTotal())))
                     .collect(Collectors.toList());
-
+            brokerOrder.send(transactions, "PENDING");
             repository.saveAll(transactions);
             logger.info("Transações salvas: " + transactions.size() + " registros.");
         }).exceptionally(e -> {
@@ -93,8 +95,6 @@ public class TransactionService {
     public CompletableFuture<Void> updateStatusTransaction(String order){
 
         try {
-
-            Thread.sleep(5000); // Simula um atraso de 5 segundos
             // Cria o ObjectMapper para ler o JSON
             JsonNode root = mapper.readTree(order);
 
@@ -103,6 +103,7 @@ public class TransactionService {
             String id = root.path("resource").path("id").asText();
 
             List<Transaction> transactionUpdate = repository.findByIdPagamento(id);
+            brokerOrder.send(transactionUpdate, status);
             // Simula a lógica de atualização usando o status e id
             if ("APPROVED".equals(status)) {
                 transactionUpdate.forEach(transaction -> {
@@ -128,4 +129,6 @@ public class TransactionService {
 
         return CompletableFuture.completedFuture(null);
     }
+
+
 }
