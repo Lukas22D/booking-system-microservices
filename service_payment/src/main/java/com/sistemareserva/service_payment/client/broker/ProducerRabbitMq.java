@@ -15,10 +15,10 @@ import lombok.AllArgsConstructor;
 public class ProducerRabbitMq {
     
     private final RabbitTemplate rabbitTemplate;
-    private final String exchange = "payment-queue";
+    private final String exchange = "payment-exchange";
     
     public void send(List<Transaction> transaction, String status) {
         OrderInfo message = OrderInfo.fromTransaction(transaction, status);
-        rabbitTemplate.convertAndSend(exchange, message);
+        rabbitTemplate.convertAndSend(exchange, null, message);
     }
 }

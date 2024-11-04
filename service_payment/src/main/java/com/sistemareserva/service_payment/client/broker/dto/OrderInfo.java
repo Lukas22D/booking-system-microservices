@@ -6,6 +6,7 @@ import com.sistemareserva.service_payment.model.Transaction;
 
 public record OrderInfo (
     List<Long> idReserva,
+    Long idHospede,
     String Status
 ) {
  
@@ -15,6 +16,7 @@ public record OrderInfo (
             transaction.stream()
                 .map(Transaction::getIdReserva)
                 .toList(),
+            transaction.get(0).getIdHospede(),
                 status
         );
     }

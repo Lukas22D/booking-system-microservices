@@ -12,8 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 
 @Configuration
 public class AppConfig {
@@ -29,12 +27,6 @@ public class AppConfig {
     }
 
     @Bean
-    public Dotenv dotenv() {
-        return Dotenv.configure().load();
-
-    }
-
-      @Bean
     public Jackson2JsonMessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
