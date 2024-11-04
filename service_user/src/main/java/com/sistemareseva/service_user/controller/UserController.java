@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.sistemareseva.service_user.controller.dto.UserRequest;
 import com.sistemareseva.service_user.controller.dto.UserResponse;
@@ -28,19 +29,19 @@ public class UserController {
     };
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUser(Long id){
+    public ResponseEntity<UserResponse> getUser(@PathVariable("id") Long id){
         var user = service.getUser(id);
         return ResponseEntity.ok(new UserResponse(user));
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(Long id, @RequestBody UserRequest request){
+    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") Long id, @RequestBody UserRequest request){
         var user = service.updateUser(id, request.toModel());
         return ResponseEntity.ok(new UserResponse(user));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(Long id){
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id){
         service.deleteUser(id);
         return ResponseEntity.ok().build();
     }
