@@ -1,7 +1,6 @@
 package com.sistemareserva.service_notification.client.feignClient;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -16,5 +15,5 @@ public interface ReservaClient {
 
 
      @GetMapping("/hospede/{idHospede}")
-    public CompletableFuture<ResponseEntity<List<ReservaResponse>>> findByIdHospede(@PathVariable Long idHospede);
+    public ResponseEntity<List<ReservaResponse>> findByIdHospede(@PathVariable Long idHospede);
 }
