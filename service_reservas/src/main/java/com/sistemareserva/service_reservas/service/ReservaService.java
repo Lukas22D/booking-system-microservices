@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.sistemareserva.service_reservas.client.feightClient.QuartosClient;
-import com.sistemareserva.service_reservas.client.feightClient.dto.QuartosReponse;
+import com.sistemareserva.service_reservas.client.feignClient.QuartosClient;
+import com.sistemareserva.service_reservas.client.feignClient.dto.QuartosReponse;
 import com.sistemareserva.service_reservas.client.repository.ReservaRepository;
 import com.sistemareserva.service_reservas.model.Reservas;
 
@@ -48,6 +48,7 @@ public class ReservaService {
                 
         return reserva.thenApply(repository::save);
     }
+    
 
     public Boolean existsReserva(Long idQuarto, Date dataEntrada, Date dataSaida) {
         return repository.existsReserva(idQuarto, dataEntrada, dataSaida).orElse(false);

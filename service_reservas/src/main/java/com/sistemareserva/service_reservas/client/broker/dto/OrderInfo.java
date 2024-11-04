@@ -4,6 +4,7 @@ import java.util.List;
 
 public record OrderInfo(
     List<Long> idReserva,
+    Long idHospede,
     String Status
 ) {
     

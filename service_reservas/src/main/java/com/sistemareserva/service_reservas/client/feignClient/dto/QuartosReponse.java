@@ -1,4 +1,4 @@
-package com.sistemareserva.service_reservas.client.feightClient.dto;
+package com.sistemareserva.service_reservas.client.feignClient.dto;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
