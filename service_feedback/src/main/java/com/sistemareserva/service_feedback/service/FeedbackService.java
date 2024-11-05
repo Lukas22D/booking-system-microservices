@@ -1,8 +1,10 @@
 package com.sistemareserva.service_feedback.service;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.sistemareserva.service_feedback.client.repository.FeedbackRepository;
 import com.sistemareserva.service_feedback.model.Feedback;
+import com.sistemareserva.service_feedback.client.broker.Producer;
 
 import java.util.List;
 
@@ -14,9 +16,11 @@ import lombok.AllArgsConstructor;
 public class FeedbackService {
     
     private final FeedbackRepository feedbackRepository;
+    private final Producer producer;
 
-
+    @Async
     public Feedback saveFeedback(Feedback feedback) {
+        calculateAverageRating(feedback.getIdQuarto());
         return feedbackRepository.save(feedback);
     }
 
@@ -56,5 +60,13 @@ public class FeedbackService {
             .orElseThrow(
                 () -> new RuntimeException("Feedback not found with id " + id)
             );
+    }
+
+
+    private Void calculateAverageRating (Long idQuarto) {
+        List<Double> ratings = feedbackRepository.findRatingsByIdQuarto(idQuarto);
+        Double averageRating = ratings.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+        producer.sendUpdateRating(idQuarto, averageRating);
+        return null;
     }
 }
