@@ -44,10 +44,23 @@ public void consumerOrder(String message) throws Exception {
 
     // Fetch reservation details synchronously
     ResponseEntity<List<ReservaResponse>> responseEntity = reservaClient.findByIdHospede(orderInfo.idHospede());
-    List<EmailDTO> emailDTOs = responseEntity.getBody().stream().map(reserva -> {
+    List<ReservaResponse> reservas = responseEntity.getBody();
+    if (reservas == null) {
+        logger.error("Received null body from reservaClient");
+        return;
+    }
+    List<EmailDTO> emailDTOs = reservas.stream().map(reserva -> {
         try {
             QuartosReponse quarto = quartoClient.getQuartoById(reserva.idQuarto()).getBody();
             UserResponse user = userClient.getUser(reserva.idHospede()).getBody();
+            if (quarto == null) {
+                logger.error("Received null body from quartoClient for idQuarto: {}", reserva.idQuarto());
+                return null;
+            }
+            if (user == null) {
+                logger.error("Received null body from userClient for idHospede: {}", reserva.idHospede());
+                return null;
+            }
             return new EmailDTO(user.email(), user.email(), reserva.dataEntrada(), reserva.dataSaida(),
                                 quarto.nome(), reserva.id().toString(), reserva.valorTotal(), orderInfo.Status());
         } catch (Exception e) {
