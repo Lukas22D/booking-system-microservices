@@ -39,7 +39,7 @@ public class TransactionService {
     public CompletableFuture<String> createOrder(Long idHospede) {
         // Obtém a reserva de forma assíncrona
         CompletableFuture<List<ReservaResponse>> reserva = CompletableFuture
-                .completedFuture(reservasClient.findByIdHospede(idHospede))
+                .completedFuture(reservasClient.findByIdHospedeAndStatusNull(idHospede))
                 .thenApply(responseEntity -> {
                     List<ReservaResponse> reservas = responseEntity.getBody();
                     if (reservas == null || reservas.isEmpty()) {

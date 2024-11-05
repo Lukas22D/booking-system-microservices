@@ -11,6 +11,6 @@ import com.sistemareserva.service_payment.client.FaightClient.dto.ReservaRespons
 @FeignClient(name = "service-reservas", url = "localhost:8082/reservas")
 public interface ReservasClient {
 
-    @GetMapping("/hospede/{idHospede}")
-    public ResponseEntity<List<ReservaResponse>> findByIdHospede(@PathVariable Long idHospede);
+    @GetMapping("/hospede/{idHospede}/status/null")
+    public ResponseEntity<List<ReservaResponse>> findByIdHospedeAndStatusNull(@PathVariable Long idHospede);
 }
