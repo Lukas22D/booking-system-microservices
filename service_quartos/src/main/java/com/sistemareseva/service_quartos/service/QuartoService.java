@@ -10,6 +10,7 @@ import java.util.Collections;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.sistemareseva.service_quartos.client.feignClient.ReservasClient;
@@ -90,28 +91,36 @@ public class QuartoService {
     }
 
     public void deleteQuarto(Long id) {
-    // Verifica se o quarto está reservado através do client
-    try {
-        ResponseEntity<ReservaResponse> response = reservasClient.findByQuartoId(id);
-        
-        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            throw new RuntimeException("O quarto já está reservado.");
+        // Verifica se o quarto está reservado através do client
+        try {
+            ResponseEntity<ReservaResponse> response = reservasClient.findByQuartoId(id);
+
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                throw new RuntimeException("O quarto já está reservado.");
+            }
+        } catch (FeignException.NotFound e) {
+            // Trata o erro 404 (quarto não reservado)
+            logger.info("Nenhuma reserva encontrada para o quarto " + id + ". Continuando com a exclusão...");
         }
-    } catch (FeignException.NotFound e) {
-        // Trata o erro 404 (quarto não reservado)
-        logger.info("Nenhuma reserva encontrada para o quarto " + id + ". Continuando com a exclusão...");
+
+        // Verifica se o quarto existe no repositório e o deleta
+        repository.findById(id).ifPresentOrElse(
+                quarto -> {
+                    repository.delete(quarto);
+                    logger.info("Quarto deletado com sucesso.");
+                },
+                () -> {
+                    throw new RuntimeException("Quarto não encontrado.");
+                });
     }
 
-    // Verifica se o quarto existe no repositório e o deleta
-    repository.findById(id).ifPresentOrElse(
-        quarto -> {
-            repository.delete(quarto);
-            logger.info("Quarto deletado com sucesso.");
-        },
-        () -> {
-            throw new RuntimeException("Quarto não encontrado.");
-        }
-    );
-}
+    @Async
+    public Void updateRating (Long id, Double rating) {
+        repository.findById(id).map(q -> {
+            q.setRating(rating);
+            return repository.save(q);
+        }).orElseThrow(() -> new RuntimeException("Quarto not found"));
+        return null;
+    }
 
 }
