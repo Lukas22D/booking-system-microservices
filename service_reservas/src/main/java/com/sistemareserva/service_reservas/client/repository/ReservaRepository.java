@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.sistemareserva.service_reservas.model.Reservas;
+import com.sistemareserva.service_reservas.model.StatusReserva;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<Reservas, Long> {
@@ -24,6 +25,11 @@ public interface ReservaRepository extends JpaRepository<Reservas, Long> {
     List<Reservas> findByIdHospede(Long idHospede);
 
     Optional<Reservas> findByIdQuarto(Long idQuarto);
+
+    @Query("SELECT r FROM tb_reservas r WHERE r.idHospede = :idHospede AND r.status IS NULL")
+    Optional<List<Reservas>> findByIdHospedeAndStatusIsNull(@Param("idHospede") Long idHospede);
+
+    Optional<List<Reservas>> findByIdHospedeAndStatus(Long idHospede, StatusReserva status);
 
     @Query("SELECT r FROM tb_reservas r WHERE r.idQuarto = :idQuarto AND r.status =  com.sistemareserva.service_reservas.model.StatusReserva.CONFIRMADA")
     Optional<Reservas> findByIdQuartoAndStatusConfirmado(

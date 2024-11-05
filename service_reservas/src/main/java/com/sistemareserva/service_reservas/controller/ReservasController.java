@@ -57,6 +57,17 @@ public class ReservasController {
         return ResponseEntity.ok(reserva);
     }
 
+    @GetMapping("/hospede/{idHospede}/status/{status}")
+    public ResponseEntity<List<ReservaResponse>> findByIdHospedeAndStatus(@PathVariable Long idHospede, @PathVariable String status) {
+          return ResponseEntity.ok(service.findByIdHospedeAndStatus(idHospede, status).stream().map(ReservaResponse::new).collect(Collectors.toList()));
+                
+    }
+
+    @GetMapping("/hospede/{idHospede}/status/null")
+    public ResponseEntity<List<ReservaResponse>> findByIdHospedeAndStatusNull(@PathVariable Long idHospede) {
+        return ResponseEntity.ok(service.findByIdHospedeAndStatusNull(idHospede).stream().map(ReservaResponse::new).collect(Collectors.toList()));
+    }
+
     @GetMapping("/hospede/{idHospede}")
     public CompletableFuture<ResponseEntity<List<ReservaResponse>>> findByIdHospede(@PathVariable Long idHospede) {
        return  service.findByIdHospede(idHospede)

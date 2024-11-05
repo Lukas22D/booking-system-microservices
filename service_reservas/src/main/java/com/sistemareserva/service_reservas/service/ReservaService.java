@@ -12,7 +12,7 @@ import com.sistemareserva.service_reservas.client.feignClient.QuartosClient;
 import com.sistemareserva.service_reservas.client.feignClient.dto.QuartosReponse;
 import com.sistemareserva.service_reservas.client.repository.ReservaRepository;
 import com.sistemareserva.service_reservas.model.Reservas;
-
+import com.sistemareserva.service_reservas.model.StatusReserva;
 
 import java.sql.Date;
 import java.util.List;
@@ -38,15 +38,26 @@ public class ReservaService {
         CompletableFuture<QuartosReponse> quarto = CompletableFuture.completedFuture(quartosClient.getQuartoById(idQuarto)).thenApply(ResponseEntity::getBody);
         
         CompletableFuture<Reservas> reserva = quarto.thenApply(q -> {
-            repository.findByIdQuartoAndStatusConfirmado(q.id()).ifPresent(reservaExistente -> {
-                logger.error("Quarto já reservado");
-                throw new RuntimeException("Quarto já reservado");
+            repository.existsReserva(q.id(), dataEntrada, dataSaida).ifPresent(exists -> {
+                if (exists) {
+                    logger.error("Quarto já reservado");
+                    throw new RuntimeException("Quarto já reservado");
+                }
             });
             logger.info("Quarto encontrado");
             return new Reservas(idQuarto, idHospede, dataEntrada, dataSaida, q.preco());
         });
                 
         return reserva.thenApply(repository::save);
+    }
+
+    public List<Reservas> findByIdHospedeAndStatusNull (Long idHospede) {
+        return repository.findByIdHospedeAndStatusIsNull(idHospede).orElse(null);
+    }
+
+    public List<Reservas> findByIdHospedeAndStatus(Long idHospede, String status) {
+        StatusReserva statusReserva = StatusReserva.valueOf(status);
+        return repository.findByIdHospedeAndStatus(idHospede, statusReserva).orElse(null);
     }
     
 
