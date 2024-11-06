@@ -1,5 +1,6 @@
 package com.sistemareserva.service_feedback.client.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,5 +17,5 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
     Optional<List<Feedback>> findByIdQuarto(Long idQuarto);
 
     @Query("SELECT f.rating FROM tb_feedback f WHERE f.idQuarto = :idQuarto")
-    List<Double> findRatingsByIdQuarto(@Param("idQuarto") Long idQuarto);
+    List<BigDecimal> findRatingsByIdQuarto(@Param("idQuarto") Long idQuarto);
 }

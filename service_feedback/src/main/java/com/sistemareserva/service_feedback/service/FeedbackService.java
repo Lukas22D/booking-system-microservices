@@ -6,7 +6,9 @@ import com.sistemareserva.service_feedback.client.repository.FeedbackRepository;
 import com.sistemareserva.service_feedback.model.Feedback;
 import com.sistemareserva.service_feedback.client.broker.Producer;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import lombok.AllArgsConstructor;
 
@@ -19,9 +21,11 @@ public class FeedbackService {
     private final Producer producer;
 
     @Async
-    public Feedback saveFeedback(Feedback feedback) {
-        calculateAverageRating(feedback.getIdQuarto());
-        return feedbackRepository.save(feedback);
+    public CompletableFuture<Feedback> saveFeedback(Feedback feedback) {
+        return CompletableFuture.supplyAsync(() -> {
+            calculateAverageRating(feedback.getIdQuarto());
+            return feedbackRepository.save(feedback);
+        });
     }
 
     public Feedback getFeedbackById(Long id) {
@@ -64,8 +68,8 @@ public class FeedbackService {
 
 
     private Void calculateAverageRating (Long idQuarto) {
-        List<Double> ratings = feedbackRepository.findRatingsByIdQuarto(idQuarto);
-        Double averageRating = ratings.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+        List<BigDecimal > ratings = feedbackRepository.findRatingsByIdQuarto(idQuarto);
+        BigDecimal averageRating = BigDecimal.valueOf(ratings.stream().mapToDouble(BigDecimal::doubleValue).average().orElse(0.0));
         producer.sendUpdateRating(idQuarto, averageRating);
         return null;
     }
