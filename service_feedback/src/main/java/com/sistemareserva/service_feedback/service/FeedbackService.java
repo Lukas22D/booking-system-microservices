@@ -4,6 +4,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.sistemareserva.service_feedback.client.repository.FeedbackRepository;
 import com.sistemareserva.service_feedback.model.Feedback;
+
+import jakarta.transaction.Transactional;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import com.sistemareserva.service_feedback.client.broker.Producer;
 
 import java.math.BigDecimal;
@@ -19,6 +24,7 @@ public class FeedbackService {
     
     private final FeedbackRepository feedbackRepository;
     private final Producer producer;
+    private final Logger logger = LoggerFactory.getLogger(FeedbackService.class);
 
     @Async
     public CompletableFuture<Feedback> saveFeedback(Feedback feedback) {
@@ -45,6 +51,10 @@ public class FeedbackService {
             );
     }
 
+    @Transactional
+    public void deleteFeedbackByQuarto(Long idQuarto) {
+            feedbackRepository.deleteByIdQuarto(idQuarto);
+    }
 
     public List<Feedback> getFeedbackByQuarto(Long idQuarto) {
         return feedbackRepository.findByIdQuarto(idQuarto).orElseThrow(
@@ -70,6 +80,7 @@ public class FeedbackService {
     private Void calculateAverageRating (Long idQuarto) {
         List<BigDecimal > ratings = feedbackRepository.findRatingsByIdQuarto(idQuarto);
         BigDecimal averageRating = BigDecimal.valueOf(ratings.stream().mapToDouble(BigDecimal::doubleValue).average().orElse(0.0));
+        logger.info("Average rating for quarto " + idQuarto + " is " + averageRating);
         producer.sendUpdateRating(idQuarto, averageRating);
         return null;
     }

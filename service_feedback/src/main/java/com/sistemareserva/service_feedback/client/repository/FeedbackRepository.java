@@ -18,4 +18,6 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
     @Query("SELECT f.rating FROM tb_feedback f WHERE f.idQuarto = :idQuarto")
     List<BigDecimal> findRatingsByIdQuarto(@Param("idQuarto") Long idQuarto);
+
+    void deleteByIdQuarto(Long idQuarto);
 }

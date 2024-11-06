@@ -14,10 +14,10 @@ import lombok.AllArgsConstructor;
 public class Producer {
     
     private final RabbitTemplate rabbitTemplate;
-    private final String exchange = "rating-exchange";
+    private final String exchange = "feedback-exchanges";
 
     public void sendUpdateRating(Long idQuarto, BigDecimal  rating) {
         UpdateRatingRequest updateRatingRequest = new UpdateRatingRequest(idQuarto, rating);
-        rabbitTemplate.convertAndSend(exchange, null, updateRatingRequest);
+        rabbitTemplate.convertAndSend(exchange, "updateRatting", updateRatingRequest);
     }
 }

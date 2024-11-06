@@ -27,16 +27,16 @@ public class AppConfig {
     }
 
     @Bean
-    public Jackson2JsonMessageConverter jsonMessageConverter() {
+    public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
     @Bean
-    @Primary
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(jsonMessageConverter());
+        rabbitTemplate.setMessageConverter(jackson2JsonMessageConverter());
         return rabbitTemplate;
     }
+  
 
 }
