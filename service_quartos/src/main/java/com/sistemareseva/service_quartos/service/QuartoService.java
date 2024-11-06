@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.sistemareseva.service_quartos.client.broker.ProducerFeedBack;
 import com.sistemareseva.service_quartos.client.feignClient.ReservasClient;
 import com.sistemareseva.service_quartos.client.feignClient.dto.ReservaResponse;
 import com.sistemareseva.service_quartos.client.repository.QuartoRepository;
@@ -32,6 +33,7 @@ public class QuartoService {
     private final QuartoRepository repository;
     private final CategoryService categoryService;
     private final ReservasClient reservasClient;
+    private final ProducerFeedBack producerFeedBack;
 
     public Quartos createQuarto(Quartos quarto, Long categoryId) {
         quarto.setCategory(categoryService.getCategoryById(categoryId));
@@ -107,6 +109,7 @@ public class QuartoService {
         repository.findById(id).ifPresentOrElse(
                 quarto -> {
                     repository.delete(quarto);
+                    producerFeedBack.sendToDeleteFeedBack(quarto.getId());
                     logger.info("Quarto deletado com sucesso.");
                 },
                 () -> {
