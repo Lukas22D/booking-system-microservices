@@ -23,7 +23,7 @@ public class Quartos {
     private String description;
     private BigDecimal priceNight;
     private Integer capacity;
-    private Double rating;
+    private BigDecimal rating;
 
     @ManyToOne
     private Category category;
@@ -33,7 +33,7 @@ public class Quartos {
         this.description = description;
         this.priceNight = priceNight;
         this.capacity = capacity;
-        this.rating = 0.0;
+        this.rating = BigDecimal.ZERO;
     }
     
 }

@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import java.util.Optional;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.sistemareseva.service_quartos.client.feignClient.ReservasClient;
@@ -114,8 +114,8 @@ public class QuartoService {
                 });
     }
 
-    @Async
-    public Void updateRating (Long id, Double rating) {
+    
+    public Void updateRating (Long id, BigDecimal rating) {
         repository.findById(id).map(q -> {
             q.setRating(rating);
             return repository.save(q);
