@@ -1,6 +1,7 @@
 package com.sistemareserva.service_payment.client.provider.PayPal;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -30,6 +31,7 @@ public class PayPalAuthService {
         this.restTemplate = restTemplate;
     }
 
+    @Cacheable("paypal-token")
     public String getAccessToken() throws Exception {
         // Codificando client_id e secret para Base64
         String credentials = clientId + ":" + clientSecret;
