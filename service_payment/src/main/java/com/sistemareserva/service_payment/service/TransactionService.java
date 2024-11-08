@@ -14,9 +14,11 @@ import com.sistemareserva.service_payment.client.provider.PayPal.PayPalService;
 import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderRequest;
 import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderResponse;
 import com.sistemareserva.service_payment.client.repository.TransactionRepository;
+import com.sistemareserva.service_payment.handler.error.OrderCreateException;
 import com.sistemareserva.service_payment.model.Transaction;
 import com.sistemareserva.service_payment.model.enums.TransactionStatus;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
@@ -43,7 +45,7 @@ public class TransactionService {
                 .thenApply(responseEntity -> {
                     List<ReservaResponse> reservas = responseEntity.getBody();
                     if (reservas == null || reservas.isEmpty()) {
-                        throw new RuntimeException("Nenhuma reserva encontrada para o hóspede com ID: " + idHospede);
+                        throw new EntityNotFoundException("Nenhuma reserva encontrada para o hóspede com ID: " + idHospede);
                     }
                     return reservas;
                 });
@@ -55,7 +57,7 @@ public class TransactionService {
             return payPalService.createOrder(or)
                     .exceptionally(e -> {
                         logger.error("Erro ao criar pedido: " + e.getMessage());
-                        throw new RuntimeException("Falha ao criar pedido", e);
+                        throw new OrderCreateException(e.getMessage());
                     });
         });
 
@@ -86,7 +88,7 @@ public class TransactionService {
             logger.info("Transações salvas: " + transactions.size() + " registros.");
         }).exceptionally(e -> {
             logger.error("Erro ao salvar transações: " + e.getMessage());
-            throw new RuntimeException("Falha ao salvar transações", e);
+            throw new OrderCreateException(e.getMessage());
         });
     }
 
@@ -123,7 +125,7 @@ public class TransactionService {
         } catch (Exception e) {
             // Tratamento de exceção
             logger.error("Erro ao atualizar transação: " + e.getMessage());
-            throw new RuntimeException("Falha ao atualizar transação", e);
+            throw new OrderCreateException(e.getMessage());
 
         }
 
