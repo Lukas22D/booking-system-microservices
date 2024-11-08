@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,12 @@ public class ReservasController {
         Date sqlDataSaida = Date.valueOf(LocalDate.parse(dataSaida));
 
         return ResponseEntity.ok(service.findQuartosReservados(sqlDataEntrada, sqlDataSaida));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReserva(@PathVariable Long id) {
+        service.deleteReserva(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")

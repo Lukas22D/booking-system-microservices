@@ -77,6 +77,16 @@ public class ReservaService {
         return repository.findByIdQuarto(idQuarto).orElse(null);
     }
 
+
+    public void deleteReserva(Long idReserva) {
+        repository.findById(idReserva).ifPresentOrElse(
+            repository::delete,
+            () -> {
+                throw new RuntimeException("Reserva não encontrada");
+            }
+        );
+    }
+
     @Async
     public  CompletableFuture<List<Reservas>> findByIdHospede(Long idHospede) {
         return  CompletableFuture.completedFuture(repository.findByIdHospede(idHospede));
