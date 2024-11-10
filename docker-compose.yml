@@ -38,7 +38,7 @@ services:
         - cache-network
 
   service-payment:
-    image: payment-service
+    image: payment-service:v1
     container_name: service-payment
     depends_on:
       - db
@@ -50,9 +50,10 @@ services:
       - app-db
       - cache-network
       - rabbitmq-network
+      - services
 
   service-reservas:
-    image: reservas-services 
+    image: reservas-services:v1
     container_name: service-reservas
     depends_on:
       - db
@@ -63,9 +64,10 @@ services:
       - app-db
       - cache-network
       - rabbitmq-network
+      - services
 
   service-quartos:
-    image: quartos-services
+    image: quartos-services:v1
     container_name: service-quartos
     depends_on:
       - db
@@ -76,6 +78,35 @@ services:
       - app-db
       - cache-network
       - rabbitmq-network
+      - services
+
+  service-notification:
+    image: notification-service:v1
+    container_name: service-notification
+    depends_on:
+      - db
+      - rabbitmq
+    ports:
+      - "8084:8084"
+    networks:
+      - app-db
+      - cache-network
+      - rabbitmq-network
+      - services
+
+  service-users:
+    image: users-service:v1
+    container_name: service-users
+    depends_on:
+      - db
+      - rabbitmq
+    ports:
+      - "8080:8080"
+    networks:
+      - app-db
+      - cache-network
+      - rabbitmq-network
+      - services
 
 volumes:
   db_data:
@@ -87,5 +118,7 @@ networks:
   app-db:
     driver: bridge
   rabbitmq-network:
+    driver: bridge
+  services:
     driver: bridge
   
