@@ -38,7 +38,7 @@ public class Consumer {
     private final Logger logger = LoggerFactory.getLogger(Consumer.class);
 
 
-@RabbitListener(queues = "email-queue")
+@RabbitListener(queues = "notification-queue")
 public void consumerOrder(String message) throws Exception {
     OrderInfo orderInfo = mapper.readValue(message, OrderInfo.class);
 

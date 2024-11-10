@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.sistemareseva.service_quartos.client.feignClient.dto.ReservaResponse;
 
-@FeignClient(name = "service-reservas", url = "localhost:8082/reservas")
+@FeignClient(name = "service-reservas", url = "service-reservas:8082/reservas")
 public interface ReservasClient {
 
     @GetMapping("/quartos/reservados/{dataEntrada}/{dataSaida}")

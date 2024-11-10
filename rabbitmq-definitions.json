@@ -1,0 +1,56 @@
+{
+    "vhosts": [
+      {
+        "name": "/"
+      }
+    ],
+    "queues": [
+      {
+        "name": "payment-queue",
+        "vhost": "/",
+        "durable": true
+      },
+      {
+        "name": "notification-queue",
+        "vhost": "/",
+        "durable": true
+      },
+      {
+        "name": "rating-queue",
+        "vhost": "/",
+        "durable": true
+      }
+    ],
+    "exchanges": [
+      {
+        "name": "payment-exchange",
+        "vhost": "/",
+        "type": "direct",
+        "durable": true
+      }
+    ],
+    "bindings": [
+      {
+        "source": "payment-exchange",
+        "vhost": "/",
+        "destination": "payment-queue",
+        "destination_type": "queue",
+        "routing_key": "payment.routing.key"
+      },
+      {
+        "source": "payment-exchange",
+        "vhost": "/",
+        "destination": "notification-queue",
+        "destination_type": "queue",
+        "routing_key": "notification.routing.key"
+      },
+      {
+        "source": "payment-exchange",
+        "vhost": "/",
+        "destination": "rating-queue",
+        "destination_type": "queue",
+        "routing_key": "rating.routing.key"
+      }
+    ]
+  }
+  
