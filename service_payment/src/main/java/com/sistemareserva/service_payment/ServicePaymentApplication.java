@@ -19,4 +19,5 @@ public class ServicePaymentApplication {
 		SpringApplication.run(ServicePaymentApplication.class, args);
 	}
 
+
 }

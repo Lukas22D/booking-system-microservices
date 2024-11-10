@@ -49,7 +49,7 @@ public class AppConfig {
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         // Configuração padrão do RedisCache com tempo de expiração 
         RedisCacheConfiguration cacheConfig = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofHours(1))
+                .entryTtl(Duration.ofMinutes(30))
                 .disableCachingNullValues()
                 .serializeKeysWith(
                         RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));

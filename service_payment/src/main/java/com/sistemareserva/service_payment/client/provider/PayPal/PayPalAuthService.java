@@ -1,5 +1,7 @@
 package com.sistemareserva.service_payment.client.provider.PayPal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
@@ -20,6 +22,7 @@ public class PayPalAuthService {
 
     private static final String PAYPAL_URL = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
     private final RestTemplate restTemplate;
+    private final Logger logger = LoggerFactory.getLogger(PayPalAuthService.class);
 
     @Value("${paypal.oauth.client.id}")
     private String clientId;
@@ -34,6 +37,8 @@ public class PayPalAuthService {
     @Cacheable("paypal-token")
     public String getAccessToken() throws Exception {
         // Codificando client_id e secret para Base64
+        logger.info("clientId: " + clientId);
+        logger.info("clientSecret: " + clientSecret);
         String credentials = clientId + ":" + clientSecret;
         String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
 
