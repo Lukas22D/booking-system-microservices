@@ -2,8 +2,8 @@ FROM openjdk:17-alpine
 LABEL maintainer="github/Lukas22D"
 
 # Definindo variáveis de ambiente
-ENV PAYPAL_CLIENT_ID=AXmqfAbTYg8tIQZTfLotngssewd6ciwz1hj_IGKmw_KPUIcfRt24-yCmyD4j21O2CrgeQeVcWS6b6Z1i
-ENV PAYPAL_CLIENT_SECRET=ELVEWIEcUoaBtdP0uwnd-JJiNry_HX5bTK11ZyLx35gkU-OBJCxhgAGwmSmYbvTMAxT_jL6ByBKbm1bx
+ENV PAYPAL_CLIENT_ID=
+ENV PAYPAL_CLIENT_SECRET=
 ENV DB_URL=jdbc:mysql://sistema-reserva-hoteis:3306/db_transaction
 ENV RABBIT_HOST=sistema-reserva-hoteis-rabbitmq
 ENV RABBIT_PORT=5672
