@@ -8,5 +8,15 @@
     "name": "paypal.oauth.client.secret",
     "type": "java.lang.String",
     "description": "A description for 'paypal.oauth.client.secret'"
+  },
+  {
+    "name": "service-reservas.url",
+    "type": "java.lang.String",
+    "description": "A description for 'service-reservas.url'"
+  },
+  {
+    "name": "service.reservas.url",
+    "type": "java.lang.String",
+    "description": "A description for 'service-reservas.url'"
   }
 ]}

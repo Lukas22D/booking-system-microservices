@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.sistemareserva.service_payment.client.feignClient.dto.ReservaResponse;
 
-@FeignClient(name = "service-reservas", url = "service-reservas:8082/reservas")
+@FeignClient(name = "service-reservas", url = "${service.reservas.url}")
 public interface ReservasClient {
 
     @GetMapping("/hospede/{idHospede}/status/null")
