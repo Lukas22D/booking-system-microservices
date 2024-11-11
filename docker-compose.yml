@@ -108,6 +108,20 @@ services:
       - rabbitmq-network
       - services
 
+  service-feedback:
+    image: feedback-service:v1
+    container_name: service-feedback
+    depends_on:
+      - db
+      - rabbitmq
+    ports:
+      - "8086:8086"
+    networks:
+      - app-db
+      - cache-network
+      - rabbitmq-network
+      - services
+
 volumes:
   db_data:
   rabbitmq_data:
