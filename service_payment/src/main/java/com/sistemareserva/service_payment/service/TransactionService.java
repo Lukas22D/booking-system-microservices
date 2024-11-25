@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
-public class TransactionService {
+public class TransactionService implements TransactionServiceInterface {
 
     private final TransactionRepository repository;
     private final PayPalService payPalService;
@@ -37,6 +37,7 @@ public class TransactionService {
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
     public final ProducerRabbitMq brokerOrder;
 
+    @Override
     @Async
     public CompletableFuture<String> createOrder(Long idHospede) {
         // Obtém a reserva de forma assíncrona
