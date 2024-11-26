@@ -1,4 +1,4 @@
-package com.sistemareserva.service_payment.client.provider.PayPal.dto;
+package com.sistemareserva.service_payment.infra.gateways.payment.paypal.dto;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package com.sistemareserva.service_payment.client.provider.PayPal;
+package com.sistemareserva.service_payment.infra.gateways.payment.paypal.core;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sistemareserva.service_payment.client.provider.PayPal.dto.PayPalTokenResponse;
+import com.sistemareserva.service_payment.infra.gateways.payment.paypal.dto.PayPalTokenResponse;
 
 import java.util.Base64;
 import java.nio.charset.StandardCharsets;

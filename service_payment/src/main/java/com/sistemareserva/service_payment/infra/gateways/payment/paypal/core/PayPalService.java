@@ -1,10 +1,8 @@
-package com.sistemareserva.service_payment.client.provider.PayPal;
+package com.sistemareserva.service_payment.infra.gateways.payment.paypal.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderRequest;
-import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +14,17 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.sistemareserva.service_payment.infra.gateways.payment.PaymenteInterface;
+import com.sistemareserva.service_payment.infra.gateways.payment.paypal.dto.OrderRequest;
+import com.sistemareserva.service_payment.infra.gateways.payment.paypal.dto.OrderResponse;
+
 import lombok.AllArgsConstructor;
 
 import java.util.concurrent.CompletableFuture;
 
 @AllArgsConstructor
 @Service
-public class PayPalService {
+public class PayPalService implements PaymenteInterface {
 
     private static final String PAYPAL_API_URL = "https://api-m.sandbox.paypal.com/v2/checkout/orders";
     private final Logger logger = LoggerFactory.getLogger(PayPalService.class);
@@ -30,6 +32,7 @@ public class PayPalService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
+    @Override
     @Async
     public CompletableFuture<OrderResponse> createOrder(OrderRequest orderRequest) {
 

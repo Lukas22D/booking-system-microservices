@@ -10,13 +10,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sistemareserva.service_payment.client.broker.ProducerRabbitMq;
 import com.sistemareserva.service_payment.client.feignClient.ReservasClient;
 import com.sistemareserva.service_payment.client.feignClient.dto.ReservaResponse;
-import com.sistemareserva.service_payment.client.provider.PayPal.PayPalService;
-import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderRequest;
-import com.sistemareserva.service_payment.client.provider.PayPal.dto.OrderResponse;
 import com.sistemareserva.service_payment.client.repository.TransactionRepository;
 import com.sistemareserva.service_payment.handler.error.OrderCreateException;
 import com.sistemareserva.service_payment.model.Transaction;
 import com.sistemareserva.service_payment.model.enums.TransactionStatus;
+import com.sistemareserva.service_payment.infra.gateways.payment.PaymenteInterface;
+import com.sistemareserva.service_payment.infra.gateways.payment.paypal.dto.OrderRequest;
+import com.sistemareserva.service_payment.infra.gateways.payment.paypal.dto.OrderResponse;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class TransactionService {
 
     private final TransactionRepository repository;
-    private final PayPalService payPalService;
+    private final PaymenteInterface paymenteInterface;
     private final ReservasClient reservasClient;
     private final ObjectMapper mapper;
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
@@ -54,7 +54,7 @@ public class TransactionService {
 
         // Processa o pedido PayPal e obtém a resposta
         CompletableFuture<OrderResponse> orderResponse = orderRequest.thenCompose(or -> {
-            return payPalService.createOrder(or)
+            return paymenteInterface.createOrder(or)
                     .exceptionally(e -> {
                         logger.error("Erro ao criar pedido: " + e.getMessage());
                         throw new OrderCreateException(e.getMessage());
