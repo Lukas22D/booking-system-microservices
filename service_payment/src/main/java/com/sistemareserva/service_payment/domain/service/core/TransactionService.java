@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sistemareserva.service_payment.domain.handler.error.OrderCreateException;
 import com.sistemareserva.service_payment.domain.service.TransactionInterface;
 import com.sistemareserva.service_payment.infra.adapters.client.ReservasClient;
@@ -34,7 +32,6 @@ public class TransactionService implements TransactionInterface{
     private final TransactionRepository repository;
     private final PaymentGateway paymenteInterface;
     private final ReservasClient reservasClient;
-    private final ObjectMapper mapper;
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
     public final MessageBrokerGateway brokerOrder;
 
@@ -98,20 +95,18 @@ public class TransactionService implements TransactionInterface{
 
     @Override
     @Async
-    public CompletableFuture<Void> updateStatusTransaction(String order){
+    public CompletableFuture<Void> updateStatusTransaction(String order) {
+            // Obtém a atualização do pedido
+            var orderReceive = paymenteInterface.OrderRecive(order);
 
-        try {
-            // Cria o ObjectMapper para ler o JSON
-            JsonNode root = mapper.readTree(order);
+            // Obtém as transações a serem atualizadas
+            List<TransactionEntity> transactionUpdate = repository.findByIdPagamento(orderReceive.id());
 
-            // Extrai "status" e "id" da resposta JSON
-            String status = root.path("resource").path("status").asText();
-            String id = root.path("resource").path("id").asText();
-
-            List<TransactionEntity> transactionUpdate = repository.findByIdPagamento(id);
-            brokerOrder.sendTransaction(transactionUpdate, status);
+            // Envia a atualização do pedido para o broker
+            brokerOrder.sendTransaction(transactionUpdate, orderReceive.status());
+            
             // Simula a lógica de atualização usando o status e id
-            if ("APPROVED".equals(status)) {
+            if ("APPROVED".equals(orderReceive.status())) {
                 transactionUpdate.forEach(transaction -> {
                     transaction.setStatus(TransactionStatus.APPROVED);
                     repository.save(transaction);
@@ -125,13 +120,6 @@ public class TransactionService implements TransactionInterface{
                 });
                 
             }
-
-        } catch (Exception e) {
-            // Tratamento de exceção
-            logger.error("Erro ao atualizar transação: " + e.getMessage());
-            throw new OrderCreateException(e.getMessage());
-
-        }
 
         return CompletableFuture.completedFuture(null);
     }

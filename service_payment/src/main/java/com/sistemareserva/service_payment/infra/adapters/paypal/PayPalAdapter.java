@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.sistemareserva.service_payment.infra.adapters.paypal.dto.ReceiveOrderUpdate;
 import com.sistemareserva.service_payment.infra.adapters.paypal.dto.OrderRequest;
 import com.sistemareserva.service_payment.infra.adapters.paypal.dto.OrderResponse;
 import com.sistemareserva.service_payment.infra.gateways.PaymentGateway;
@@ -105,4 +106,23 @@ public class PayPalAdapter implements PaymentGateway {
             return CompletableFuture.failedFuture(e);
         }
     }
+
+
+    @Override
+    public ReceiveOrderUpdate OrderRecive (String order) {
+        try {
+           // Cria o ObjectMapper para ler o JSON
+           JsonNode root = objectMapper.readTree(order);
+
+           // Extrai "status" e "id" da resposta JSON
+           String status = root.path("resource").path("status").asText();
+           String id = root.path("resource").path("id").asText();
+            
+            return new ReceiveOrderUpdate(status, id);
+        } catch (JsonProcessingException e) {
+            logger.error("Erro ao processar resposta: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
 }

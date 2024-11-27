@@ -32,9 +32,9 @@ public class PaymentController {
     }
 
     @PostMapping("/capture-order")
-    public CompletableFuture<ResponseEntity<Object>> captureOrder(@RequestBody String orderId) {
-        logger.info("Capturando pedido: " + orderId);
-        return transactionService.updateStatusTransaction(orderId)
+    public CompletableFuture<ResponseEntity<Object>> captureOrder(@RequestBody String order) {
+        logger.info("Capturando pedido: " + order);
+        return transactionService.updateStatusTransaction(order)
                 .thenApply(result -> ResponseEntity.ok().build())
                 .exceptionally(e -> {
                     logger.error("Erro ao capturar pedido: " + e.getMessage());
