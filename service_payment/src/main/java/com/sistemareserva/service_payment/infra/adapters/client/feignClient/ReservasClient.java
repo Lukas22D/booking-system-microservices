@@ -1,4 +1,4 @@
-package com.sistemareserva.service_payment.infra.adapters.client;
+package com.sistemareserva.service_payment.infra.adapters.client.feignClient;
 
 import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;

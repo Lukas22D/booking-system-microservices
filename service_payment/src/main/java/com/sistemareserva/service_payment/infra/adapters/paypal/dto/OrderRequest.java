@@ -2,7 +2,7 @@ package com.sistemareserva.service_payment.infra.adapters.paypal.dto;
 
 import java.util.*;
 
-import com.sistemareserva.service_payment.infra.adapters.client.dto.ReservaResponse;
+import com.sistemareserva.service_payment.domain.entity.OrderEntity;
 
 import java.math.BigDecimal;
 
@@ -19,15 +19,15 @@ public class OrderRequest {
     private final String intent = "CAPTURE";
     private List<Map<String, ?>> purchase_units;
 
-    public OrderRequest(List<ReservaResponse> reservas) {
+    public OrderRequest(List<OrderEntity> reservas) {
         BigDecimal total = reservas.stream()
-            .map(reserva -> new BigDecimal(reserva.valorTotal()))
+            .map(reserva -> new BigDecimal(reserva.getValorTotal()))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
         
         this.purchase_units = List.of(new HashMap<>() {{
             put("amount", new Amount(total.toString()));
             put("items", reservas.stream()
-                .map(reserva -> new Item("Reserva de quarto: " + reserva.idQuarto(), reserva.quantidadeDias(), reserva.UnidadeDiaria()))
+                .map(reserva -> new Item("Reserva de quarto: " + reserva.getIdQuarto(), reserva.getQuantidadeDias(), reserva.getUnidadeDiaria()))
                 .toList());
         }});
         
