@@ -37,7 +37,8 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
-    public Transaction (Long idReserva, Integer numDays, String idPagamento, Long idHospede, BigDecimal valor) {
+    public Transaction (Long id, Long idReserva, Integer numDays, String idPagamento, Long idHospede, BigDecimal valor) {
+        this.id = id;
         this.idReserva = idReserva;
         this.numDays = numDays;
         this.idPagamento = idPagamento;

@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sistemareserva.service_payment.domain.handler.error.OrderCreateException;
-import com.sistemareserva.service_payment.infra.adapters.client.feignClient.ReservasClient;
-import com.sistemareserva.service_payment.infra.adapters.client.feignClient.dto.ReservaResponse;
+import com.sistemareserva.service_payment.infra.adapters.client.ReservasClient;
+import com.sistemareserva.service_payment.infra.adapters.client.dto.ReservaResponse;
 import com.sistemareserva.service_payment.infra.adapters.paypal.dto.OrderRequest;
 import com.sistemareserva.service_payment.infra.adapters.paypal.dto.OrderResponse;
-import com.sistemareserva.service_payment.infra.db.model.Transaction;
-import com.sistemareserva.service_payment.infra.db.model.enums.TransactionStatus;
-import com.sistemareserva.service_payment.infra.db.repository.TransactionRepository;
+import com.sistemareserva.service_payment.infra.adapters.persistence.db.model.enums.TransactionStatus;
+import com.sistemareserva.service_payment.domain.entity.TransactionEntity;
+import com.sistemareserva.service_payment.infra.gateways.TransactionRepository;
 import com.sistemareserva.service_payment.infra.gateways.PaymentGateway;
 import com.sistemareserva.service_payment.infra.gateways.MessageBrokerGateway;
 
@@ -74,9 +74,11 @@ public class TransactionService {
     }
 
     public CompletableFuture<Void> saveTransaction(List<ReservaResponse> request, String orderId) {
+
         return CompletableFuture.runAsync(() -> {
-            List<Transaction> transactions = request.stream()
-                    .map(reserva -> new Transaction(
+            List<TransactionEntity> transactions = request.stream()
+                    .map(reserva -> new TransactionEntity(
+                            null,
                             Long.valueOf(reserva.id()),
                             Integer.parseInt(reserva.quantidadeDias()),
                             orderId,
@@ -104,7 +106,7 @@ public class TransactionService {
             String status = root.path("resource").path("status").asText();
             String id = root.path("resource").path("id").asText();
 
-            List<Transaction> transactionUpdate = repository.findByIdPagamento(id);
+            List<TransactionEntity> transactionUpdate = repository.findByIdPagamento(id);
             brokerOrder.sendTransaction(transactionUpdate, status);
             // Simula a lógica de atualização usando o status e id
             if ("APPROVED".equals(status)) {

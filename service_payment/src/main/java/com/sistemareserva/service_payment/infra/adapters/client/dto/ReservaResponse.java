@@ -1,4 +1,4 @@
-package com.sistemareserva.service_payment.infra.adapters.client.feignClient.dto;
+package com.sistemareserva.service_payment.infra.adapters.client.dto;
 
 public record ReservaResponse(
     Long id,

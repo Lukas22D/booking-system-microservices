@@ -2,9 +2,9 @@ package com.sistemareserva.service_payment.infra.gateways;
 
 import java.util.List;
 
-import com.sistemareserva.service_payment.infra.db.model.Transaction;
+import com.sistemareserva.service_payment.domain.entity.TransactionEntity;
 
 public interface MessageBrokerGateway {
     
-    void sendTransaction(List<Transaction> transaction, String status);
+    void sendTransaction(List<TransactionEntity> transaction, String status);
 }

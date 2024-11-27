@@ -1,4 +1,4 @@
-package com.sistemareserva.service_payment.infra.adapters.paypal.core;
+package com.sistemareserva.service_payment.infra.adapters.paypal;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;

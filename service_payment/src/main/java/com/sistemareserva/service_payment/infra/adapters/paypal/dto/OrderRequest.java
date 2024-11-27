@@ -2,7 +2,7 @@ package com.sistemareserva.service_payment.infra.adapters.paypal.dto;
 
 import java.util.*;
 
-import com.sistemareserva.service_payment.infra.adapters.client.feignClient.dto.ReservaResponse;
+import com.sistemareserva.service_payment.infra.adapters.client.dto.ReservaResponse;
 
 import java.math.BigDecimal;
 

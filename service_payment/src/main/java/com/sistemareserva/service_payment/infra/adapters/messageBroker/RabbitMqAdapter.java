@@ -3,8 +3,8 @@ package com.sistemareserva.service_payment.infra.adapters.messageBroker;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
+import com.sistemareserva.service_payment.domain.entity.TransactionEntity;
 import com.sistemareserva.service_payment.infra.adapters.messageBroker.dto.OrderInfo;
-import com.sistemareserva.service_payment.infra.db.model.Transaction;
 import com.sistemareserva.service_payment.infra.gateways.MessageBrokerGateway;
 
 import java.util.List;  
@@ -19,7 +19,7 @@ public class RabbitMqAdapter implements MessageBrokerGateway {
     private final String exchange = "payment-exchange";
     
     @Override
-    public void sendTransaction(List<Transaction> transaction, String status) {
+    public void sendTransaction(List<TransactionEntity> transaction, String status) {
         OrderInfo message = OrderInfo.fromTransaction(transaction, status);
         rabbitTemplate.convertAndSend(exchange, null, message);
     }

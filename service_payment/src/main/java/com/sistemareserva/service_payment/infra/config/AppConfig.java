@@ -1,4 +1,4 @@
-package com.sistemareserva.service_payment.infra.adapters.config;
+package com.sistemareserva.service_payment.infra.config;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;

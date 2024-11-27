@@ -1,4 +1,4 @@
-package com.sistemareserva.service_payment.infra.web.controller;
+package com.sistemareserva.service_payment.infra.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

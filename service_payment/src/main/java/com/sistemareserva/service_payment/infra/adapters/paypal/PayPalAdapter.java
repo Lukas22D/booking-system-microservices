@@ -1,4 +1,4 @@
-package com.sistemareserva.service_payment.infra.adapters.paypal.core;
+package com.sistemareserva.service_payment.infra.adapters.paypal;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
