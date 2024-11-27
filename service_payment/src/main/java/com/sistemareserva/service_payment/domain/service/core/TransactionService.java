@@ -1,4 +1,4 @@
-package com.sistemareserva.service_payment.domain.service;
+package com.sistemareserva.service_payment.domain.service.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sistemareserva.service_payment.domain.handler.error.OrderCreateException;
+import com.sistemareserva.service_payment.domain.service.TransactionInterface;
 import com.sistemareserva.service_payment.infra.adapters.client.ReservasClient;
 import com.sistemareserva.service_payment.infra.adapters.client.dto.ReservaResponse;
 import com.sistemareserva.service_payment.infra.adapters.paypal.dto.OrderRequest;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
-public class TransactionService {
+public class TransactionService implements TransactionInterface{
 
     private final TransactionRepository repository;
     private final PaymentGateway paymenteInterface;
@@ -37,6 +38,7 @@ public class TransactionService {
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
     public final MessageBrokerGateway brokerOrder;
 
+    @Override
     @Async
     public CompletableFuture<String> createOrder(Long idHospede) {
         // Obtém a reserva de forma assíncrona
@@ -94,7 +96,7 @@ public class TransactionService {
         });
     }
 
-
+    @Override
     @Async
     public CompletableFuture<Void> updateStatusTransaction(String order){
 

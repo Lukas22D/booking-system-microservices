@@ -1,8 +1,8 @@
-package com.sistemareserva.service_payment.infra.db.model;
+package com.sistemareserva.service_payment.infra.adapters.persistence.db.model;
 
 import java.math.BigDecimal;
 
-import com.sistemareserva.service_payment.infra.db.model.enums.TransactionStatus;
+import com.sistemareserva.service_payment.infra.adapters.persistence.db.model.enums.TransactionStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

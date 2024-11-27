@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.sistemareserva.service_payment.domain.service.TransactionService;
+import com.sistemareserva.service_payment.domain.service.TransactionInterface;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -21,15 +20,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/paypal")
-@CrossOrigin(origins = "*") // Adiciona a configuração de CORS para o controlador
+@CrossOrigin(origins = "*") 
 public class PaymentController {
 
-    private final TransactionService transactionService;
+    private final TransactionInterface transactionService;
     private final Logger logger = LoggerFactory.getLogger(PaymentController.class);
 
     @GetMapping("/create-order/{idHospede}")
-    public CompletableFuture<ResponseEntity<String>> createOrder(@PathVariable("idHospede") Long idHospede)
-            throws Exception {
+    public CompletableFuture<ResponseEntity<String>> createOrder(@PathVariable("idHospede") Long idHospede) throws Exception {
         return transactionService.createOrder(idHospede).thenApply(ResponseEntity::ok);
     }
 
@@ -43,7 +41,5 @@ public class PaymentController {
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
                 });
     }
-
-
 
 }
