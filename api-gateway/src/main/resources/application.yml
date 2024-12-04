@@ -1,8 +1,10 @@
 server:
-  port: 8761
+  port: 8088
 spring:
   application:
     name: api-gateway
+  main:
+    web-application-type: reactive
   cloud:
    gateway:
       discovery:
@@ -11,8 +13,5 @@ spring:
           lower-case-service-id: true
 eureka:
   client:
-    register-with-eureka: false # O servidor não precisa se registrar em si mesmo
-    fetch-registry: false       # O servidor não precisa buscar o registro
-  instance:
-    lease-renewal-interval-in-seconds: 30 # Frequência com que o cliente envia o heartbeat (padrão: 30 segundos)
-    lease-expiration-duration-in-seconds: 90 # Tempo após o qual a instância é marcada como DOWN se o heartbeat não for recebido (padrão: 90 segundos)
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
