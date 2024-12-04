@@ -1,6 +1,14 @@
 server:
   port: 8761
-
+spring:
+  application:
+    name: api-gateway
+  cloud:
+   gateway:
+      discovery:
+        locator:
+          enabled: true # Habilita o Discovery Locator para roteamento dinâmico
+          lower-case-service-id: true
 eureka:
   client:
     register-with-eureka: false # O servidor não precisa se registrar em si mesmo
