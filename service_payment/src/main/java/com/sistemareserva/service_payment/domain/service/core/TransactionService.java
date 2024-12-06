@@ -16,14 +16,12 @@ import com.sistemareserva.service_payment.infra.gateways.ReservasGateway;
 import com.sistemareserva.service_payment.infra.gateways.MessageBrokerGateway;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Service
 public class TransactionService implements TransactionInterface {
 
@@ -32,6 +30,13 @@ public class TransactionService implements TransactionInterface {
     private final ReservasGateway reservasClient;
     private final Logger logger = LoggerFactory.getLogger(TransactionService.class);
     public final MessageBrokerGateway brokerOrder;
+
+    public TransactionService(TransactionRepository repository, PaymentGateway paymenteInterface, ReservasGateway reservasClient, MessageBrokerGateway brokerOrder) {
+        this.repository = repository;
+        this.paymenteInterface = paymenteInterface;
+        this.reservasClient = reservasClient;
+        this.brokerOrder = brokerOrder;
+    }
 
     @Override
     @Async
