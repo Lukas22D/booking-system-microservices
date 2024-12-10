@@ -1,4 +1,4 @@
-package com.sistemareserva.service_reservas.controller;
+package com.sistemareserva.service_reservas.infra.adapters.controller;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sistemareserva.service_reservas.controller.dto.CreateReservaRequest;
-import com.sistemareserva.service_reservas.controller.dto.ReservaResponse;
-import com.sistemareserva.service_reservas.model.Reservas;
-import com.sistemareserva.service_reservas.service.ReservaService;
+import com.sistemareserva.service_reservas.application.service.ReservaService;
+import com.sistemareserva.service_reservas.infra.adapters.controller.dto.CreateReservaRequest;
+import com.sistemareserva.service_reservas.infra.adapters.controller.dto.ReservaResponse;
 
 import lombok.AllArgsConstructor;
 
@@ -84,7 +83,7 @@ public class ReservasController {
 
     @GetMapping("/quarto/{idQuarto}")
     public ResponseEntity<ReservaResponse> findByQuartoId(@PathVariable Long idQuarto) {
-    Reservas reserva = service.findByQuartoId(idQuarto);
+    var reserva = service.findByQuartoId(idQuarto);
     
     if (reserva == null) {
         // Retorna 404 se nenhuma reserva for encontrada

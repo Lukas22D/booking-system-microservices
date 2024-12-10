@@ -1,4 +1,4 @@
-package com.sistemareserva.service_reservas.client.broker.dto;
+package com.sistemareserva.service_reservas.infra.adapters.client.broker.dto;
 
 import java.util.List;
 

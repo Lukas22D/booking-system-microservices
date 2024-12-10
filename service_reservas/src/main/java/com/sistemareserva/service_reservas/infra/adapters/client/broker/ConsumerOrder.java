@@ -1,10 +1,10 @@
-package com.sistemareserva.service_reservas.client.broker;
+package com.sistemareserva.service_reservas.infra.adapters.client.broker;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sistemareserva.service_reservas.client.broker.dto.OrderInfo;
-import com.sistemareserva.service_reservas.service.ReservaService;
+import com.sistemareserva.service_reservas.application.service.ReservaService;
+import com.sistemareserva.service_reservas.infra.adapters.client.broker.dto.OrderInfo;
 
 import lombok.AllArgsConstructor;
 

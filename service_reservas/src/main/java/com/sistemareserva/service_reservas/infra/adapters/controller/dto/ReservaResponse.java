@@ -1,6 +1,6 @@
-package com.sistemareserva.service_reservas.controller.dto;
+package com.sistemareserva.service_reservas.infra.adapters.controller.dto;
 
-import com.sistemareserva.service_reservas.model.Reservas;
+import com.sistemareserva.service_reservas.application.domain.ReservaEntity;
 
 public record ReservaResponse(
     Long id,
@@ -14,7 +14,7 @@ public record ReservaResponse(
 ) {
     
 
-    public ReservaResponse(Reservas reserva) {
+    public ReservaResponse(ReservaEntity reserva) {
         this(
             reserva.getId(),
             reserva.getIdQuarto(),

@@ -1,4 +1,4 @@
-package com.sistemareserva.service_reservas.model;
+package com.sistemareserva.service_reservas.infra.adapters.persistence.repository.model;
 
 public enum StatusReserva {
     PENDENTE,

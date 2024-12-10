@@ -1,4 +1,4 @@
-package com.sistemareserva.service_reservas.controller.dto;
+package com.sistemareserva.service_reservas.infra.adapters.controller.dto;
 
 import java.sql.Date;
 import java.time.LocalDate;

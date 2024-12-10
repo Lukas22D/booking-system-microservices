@@ -1,7 +1,6 @@
-package com.sistemareserva.service_reservas.model;
+package com.sistemareserva.service_reservas.infra.adapters.persistence.repository.model;
 
 import java.sql.Date;
-import java.time.temporal.ChronoUnit;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,7 +17,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity(name = "tb_reservas")
-public class Reservas {
+public class ReservaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,39 +33,24 @@ public class Reservas {
 
     private Integer quantidadeDias;
 
-    private BigDecimal UnidadeDiaria;
+    private BigDecimal unidadeDiaria;
 
     private BigDecimal valorTotal;
 
     @Enumerated(EnumType.STRING)
     private StatusReserva status;
 
-    public Reservas(Long idQuarto, Long idHospede, Date dataEntrada, Date dataSaida, BigDecimal UnidadeDiaria) {
+    public ReservaModel(Long id, Long idQuarto, Long idHospede, Date dataEntrada, Date dataSaida, BigDecimal unidadeDiaria, StatusReserva status, Integer quantidadeDias, BigDecimal valorTotal) {
+        this.id = id;
         this.idQuarto = idQuarto;
         this.idHospede = idHospede;
         this.dataEntrada = dataEntrada;
         this.dataSaida = dataSaida;
-        this.status = null;
-        this.quantidadeDias = (int) ChronoUnit.DAYS.between(
-                dataEntrada.toLocalDate(),
-                dataSaida.toLocalDate());
-        this.UnidadeDiaria = UnidadeDiaria;
-        this.valorTotal = UnidadeDiaria.multiply(BigDecimal.valueOf(this.quantidadeDias));
+        this.status = status;
+        this.quantidadeDias = quantidadeDias;
+        this.unidadeDiaria = unidadeDiaria;
+        this.valorTotal = valorTotal;
     }
 
-    public void confirmar() {
-        this.status = StatusReserva.CONFIRMADA;
-    }
 
-    public void cancelar() {
-        this.status = StatusReserva.CANCELADA;
-    }
-
-    public void pendente() {
-        this.status = StatusReserva.PENDENTE;
-    }
-
-    public void finalizar() {
-        this.status = StatusReserva.FINALIZADA;
-    }
 }

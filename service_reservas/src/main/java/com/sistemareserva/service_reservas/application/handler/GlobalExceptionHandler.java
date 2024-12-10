@@ -1,4 +1,4 @@
-package com.sistemareserva.service_reservas.handler;
+package com.sistemareserva.service_reservas.application.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

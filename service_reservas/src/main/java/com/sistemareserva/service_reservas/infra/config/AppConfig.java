@@ -1,4 +1,4 @@
-package com.sistemareserva.service_reservas.config;
+package com.sistemareserva.service_reservas.infra.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
