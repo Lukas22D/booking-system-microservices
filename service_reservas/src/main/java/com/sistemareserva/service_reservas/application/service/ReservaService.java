@@ -77,7 +77,6 @@ public class ReservaService {
         return repository.findByIdQuarto(idQuarto).orElse(null);
     }
 
-
     public void deleteReserva(Long idReserva) {
         repository.findById(idReserva).ifPresentOrElse(
             repository::delete,
@@ -99,7 +98,5 @@ public class ReservaService {
             repository.save(reserva);
         });
     }
-
-    
 
 }
