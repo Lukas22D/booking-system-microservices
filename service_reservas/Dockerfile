@@ -5,6 +5,7 @@ LABEL maintainer="github/Lukas22D"
 ENV DB_URL=jdbc:mysql://sistema-reserva-hoteis:3306/db-reservas
 ENV RABBIT_HOST=sistema-reserva-hoteis-rabbitmq
 ENV RABBIT_PORT=5672
+ENV EUREKA_URI=http://server-discover:8761/eureka/ 
 
 # Copiando o JAR da aplicação para o diretório /app
 COPY target/service_reservas-0.0.1-SNAPSHOT.jar /com.sistemareserva/

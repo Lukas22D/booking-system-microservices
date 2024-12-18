@@ -15,3 +15,12 @@ eureka:
   client:
     service-url:
       defaultZone: http://server-discover:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # Expõe todos os endpoints, incluindo o `/gateway/routes`
+  endpoint:
+    gateway:
+      enabled: true # Habilita o endpoint específico do Gateway

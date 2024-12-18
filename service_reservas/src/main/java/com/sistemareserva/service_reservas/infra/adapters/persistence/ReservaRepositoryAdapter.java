@@ -5,12 +5,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Repository;
+
 import com.sistemareserva.service_reservas.application.domain.ReservaEntity;
 import com.sistemareserva.service_reservas.infra.gateways.ReservaRepositoryGateway;
 import com.sistemareserva.service_reservas.infra.mapper.ReservaMapper;
 import com.sistemareserva.service_reservas.infra.adapters.persistence.repository.ReservaRepository;
 import com.sistemareserva.service_reservas.infra.adapters.persistence.repository.model.StatusReserva;
 
+
+@Repository
 public class ReservaRepositoryAdapter implements ReservaRepositoryGateway {
 
     private final ReservaRepository repository;

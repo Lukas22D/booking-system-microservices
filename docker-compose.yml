@@ -36,9 +36,24 @@ services:
         - "6379:6379"
       networks:
         - cache-network
+  
+  api-gateway:
+    image: api-gateway:v1
+    container_name: api-gateway
+    ports:
+      - "8088:8088"
+    networks:
+      - services
 
+  server-discover:
+      image: api-server-discover:latest
+      container_name: server-discover
+      ports:
+        - "8761:8761"
+      networks:
+        - services
   service-payment:
-    image: payment-service:v1
+    image: payment-service:v2
     container_name: service-payment
     depends_on:
       - db
@@ -53,7 +68,7 @@ services:
       - services
 
   service-reservas:
-    image: reservas-services:v1
+    image: reservas-services:v2
     container_name: service-reservas
     depends_on:
       - db

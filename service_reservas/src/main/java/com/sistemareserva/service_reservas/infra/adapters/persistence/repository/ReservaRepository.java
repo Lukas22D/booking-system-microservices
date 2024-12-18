@@ -15,11 +15,11 @@ import com.sistemareserva.service_reservas.infra.adapters.persistence.repository
 @Repository
 public interface ReservaRepository extends JpaRepository<ReservaModel, Long> {
 
-    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN TRUE ELSE FALSE END FROM tb_reservas r WHERE r.idQuarto = :idQuarto AND r.dataEntrada = :dataEntrada AND r.dataSaida = :dataSaida AND r.status IN (com.sistemareserva.service_reservas.model.StatusReserva.PENDENTE, com.sistemareserva.service_reservas.model.StatusReserva.CONFIRMADA)")
+    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN TRUE ELSE FALSE END FROM tb_reservas r WHERE r.idQuarto = :idQuarto AND r.dataEntrada = :dataEntrada AND r.dataSaida = :dataSaida AND r.status IN (com.sistemareserva.service_reservas.infra.adapters.persistence.repository.model.StatusReserva.PENDENTE, com.sistemareserva.service_reservas.infra.adapters.persistence.repository.model.StatusReserva.CONFIRMADA)")
     Optional<Boolean> existsReserva(@Param("idQuarto") Long idQuarto, @Param("dataEntrada") Date dataEntrada,
             @Param("dataSaida") Date dataSaida);
 
-    @Query("SELECT r.idQuarto FROM tb_reservas r WHERE r.dataEntrada <= :dataSaida AND r.dataSaida >= :dataEntrada AND r.status IN (com.sistemareserva.service_reservas.model.StatusReserva.PENDENTE, com.sistemareserva.service_reservas.model.StatusReserva.CONFIRMADA)")
+    @Query("SELECT r.idQuarto FROM tb_reservas r WHERE r.dataEntrada <= :dataSaida AND r.dataSaida >= :dataEntrada AND r.status IN (com.sistemareserva.service_reservas.infra.adapters.persistence.repository.model.StatusReserva.PENDENTE, com.sistemareserva.service_reservas.infra.adapters.persistence.repository.model.StatusReserva.CONFIRMADA)")
     List<Long> findQuartosReservados(@Param("dataEntrada") Date dataEntrada, @Param("dataSaida") Date dataSaida);
 
     List<ReservaModel> findByIdHospede(Long idHospede);
@@ -31,7 +31,7 @@ public interface ReservaRepository extends JpaRepository<ReservaModel, Long> {
 
     Optional<List<ReservaModel>> findByIdHospedeAndStatus(Long idHospede, StatusReserva status);
 
-    @Query("SELECT r FROM tb_reservas r WHERE r.idQuarto = :idQuarto AND r.status =  com.sistemareserva.service_reservas.model.StatusReserva.CONFIRMADA")
+    @Query("SELECT r FROM tb_reservas r WHERE r.idQuarto = :idQuarto AND r.status =  com.sistemareserva.service_reservas.infra.adapters.persistence.repository.model.StatusReserva.CONFIRMADA")
     Optional<ReservaModel> findByIdQuartoAndStatusConfirmado(
             @Param("idQuarto") Long idQuarto);
 
